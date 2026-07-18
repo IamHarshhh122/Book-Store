@@ -1,0 +1,55 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+
+body {
+  font-family: 'Fredoka', sans-serif;
+  @apply bg-white text-slate-900 transition-colors duration-500;
+}
+
+.dark body {
+  @apply bg-slate-950 text-white;
+}
+@layer base {
+  body {
+    @apply bg-white text-slate-900 transition-colors duration-500;
+  }
+  .dark body {
+    @apply bg-slate-900 text-white;
+  }
+}
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #f1f5f9 inset !important;
+    -webkit-text-fill-color: #0f172a !important; 
+}
+/* 2. Dark mode ke liye alag fix */
+.dark input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #1e293b inset !important; 
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    transition: background-color 9999999s ease-in-out 0s;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=BBH+Bogle&family=Borel&family=Fredoka:wght@300..700&family=Playwrite+ES:wght@100..400&family=Poppins:wght@500&display=swap');
+@custom-variant dark (&:where(.dark, .dark *));
+@layer base {
+  body {
+    @apply bg-white text-slate-900 transition-colors duration-500;
+  }
+  .dark body {
+    @apply bg-slate-950 text-slate-100;
+  }
+}
+.boss-toast-border {
+  border: 2px solid #db2777 !important;
+  border-radius: 12px !important;
+}

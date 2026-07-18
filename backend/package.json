@@ -1,0 +1,36 @@
+{
+  "name": "bookstore",
+  "version": "1.0.0",
+  "description": "Backend for Bookstore",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IamHarshhh122/bookstore.git"
+  },
+  "author": "Harsh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IamHarshhh122/bookstore/issues"
+  },
+  "homepage": "https://github.com/IamHarshhh122/bookstore#readme",
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
+    "axios": "^1.16.1",
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.0.2",
+    "nodemailer": "^7.0.13",
+    "nodemon": "^3.1.11",
+    "start": "^5.1.0",
+    "three": "^0.182.0"
+  }
+}
