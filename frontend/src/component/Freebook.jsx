@@ -13,9 +13,11 @@ const Freebook = () => {
     const getBooks = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://127.0.0.1:4001/book");
         
-        const freeBooks = res.data.filter((data) => data.category === "Free");
+        const res = await axios.get("https://book-store-9cxi.onrender.com/books");
+        const rawBooks = Array.isArray(res.data) ? res.data : (res.data.books || []);
+        const freeBooks = rawBooks.filter((data) => data.category === "Free");
+        
         setBooks(freeBooks);
         setLoading(false);
       } catch (error) {
@@ -56,7 +58,6 @@ const Freebook = () => {
 
   return (
     <div className="relative z-20 bg-white dark:bg-slate-950 h-auto pt-10 pb-20 overflow-hidden mt-[-1px] transition-colors duration-500">
-    
       <div
         className="absolute inset-0 opacity-20 dark:opacity-10 pointer-events-none"
         style={{
@@ -108,7 +109,6 @@ const Freebook = () => {
           </div>
         )}
       </div>
-      
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[150px] bg-pink-600/5 blur-[120px] pointer-events-none"></div>
     </div>
   );
