@@ -14,7 +14,7 @@ const Freebook = () => {
       try {
         setLoading(true);
         
-        const res = await axios.get("https://bobook-store-backend.onrender.com/book");
+        const res = await axios.get("https://bobook-store-backend.onrender.com/books");
         
         const rawBooks = Array.isArray(res.data) ? res.data : (res.data.books || []);
         const freeBooks = rawBooks.filter((data) => data.category === "Free");
