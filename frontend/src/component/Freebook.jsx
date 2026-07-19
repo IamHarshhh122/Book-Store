@@ -14,12 +14,12 @@ const Freebook = () => {
       try {
         setLoading(true);
         
-        const res = await axios.get("https://bobook-store-backend.onrender.com/books");
+        const res = await axios.get("https://bobook-store-backend.onrender.com/book");
         
-        const rawBooks = Array.isArray(res.data) ? res.data : (res.data.books || []);
-        const freeBooks = rawBooks.filter((data) => data.category === "Free");
+        const rawBooks = Array.isArray(res.data) ? res.data : (res.data.book || []);
+        const freeBooks = rawBook.filter((data) => data.category === "Free");
         
-        setBooks(freeBooks);
+        setBooks(freeBook);
         setLoading(false);
       } catch (error) {
         console.log("Error Fetching Free Books:", error);
@@ -31,7 +31,7 @@ const Freebook = () => {
 
   const settings = {
     dots: true,
-    infinite: books.length > 3,
+    infinite: book.length > 3,
     speed: 800,
     slidesToShow: 3,
     slidesToScroll: 1,
