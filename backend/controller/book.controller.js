@@ -6,7 +6,10 @@ export const getBook = async (req, res) => {
         res.status(200).json(book);
     } catch (error) {
         console.log("Error:", error);
-        res.status(500).json({ error });
+        res.status(500).json({ 
+            message: "Database error aa gaya bro!", 
+            error: error.message || error 
+        });
     }
 };
 
@@ -15,7 +18,6 @@ export const addBook = async (req, res) => {
         const { name, price, category, image, pdfUrl } = req.body;
         
         const adminKey = req.headers['admin-secret-key'];
-        
         const MY_SECRET_KEY = "Harsh@7217"; 
 
         if (adminKey !== MY_SECRET_KEY) {
@@ -37,6 +39,6 @@ export const addBook = async (req, res) => {
 
     } catch (error) {
         console.log("Upload Error:", error);
-        res.status(500).json({ message: "Backend error: Data save nahi ho paya." });
+        res.status(500).json({ message: "Backend error: Data save nahi ho paya.", error: error.message });
     }
 };
