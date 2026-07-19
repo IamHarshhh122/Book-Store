@@ -14,7 +14,9 @@ const Freebook = () => {
       try {
         setLoading(true);
         
-        const res = await axios.get("https://book-store-9cxi.onrender.com/books");
+        // FIXED: Yahan ab tumhara ekdam fresh live backend URL aa gaya hai
+        const res = await axios.get("https://bookstore-backend.onrender.com/book");
+        
         const rawBooks = Array.isArray(res.data) ? res.data : (res.data.books || []);
         const freeBooks = rawBooks.filter((data) => data.category === "Free");
         
