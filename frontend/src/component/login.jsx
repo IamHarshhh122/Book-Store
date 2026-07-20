@@ -49,7 +49,8 @@ const Login = () => {
     const userInfo = { email: data.email, password: data.password };
 
     try {
-      const res = await axios.post("http://localhost:4001/user/login", userInfo);
+      // FIXED: Hardcoded localhost replaced with Live Production Endpoints
+      const res = await axios.post("https://bobook-store-backend.onrender.com/user/login", userInfo);
       
       if (res.data) {
         const loggedInUser = res.data.user;
