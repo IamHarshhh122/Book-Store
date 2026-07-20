@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Typewriter } from 'react-simple-typewriter';
-import API from '../API';
+import API from '../../API';
 import PaymentModal from '../component/PaymentModal';
 import Card from './Card'; // Safely unified structural link
 import { useAuth } from "../context/AuthProvider";
