@@ -22,9 +22,8 @@ const Signup = () => {
     };
 
     setLoading(true);
-
-    // Signup API Call
-    await axios.post("http://localhost:4001/user/signup", userInfo)
+// FIXED: Localhost se badal kar live backend link laga diya
+await axios.post("https://bobook-store-backend.onrender.com/user/signup", userInfo)
       .then((res) => {
         if (res.data) {
           toast.success('Account Created! Welcome to the BookStore family .Ready to explore? 😎'); 
