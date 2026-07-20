@@ -1,28 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Typewriter } from 'react-simple-typewriter';
-import axios from 'axios';
+import API from '../API';
 import PaymentModal from '../component/PaymentModal';
+import Card from './Card'; // Safely unified structural link
 import { useAuth } from "../context/AuthProvider";
-import CourseAI from './CourseAI'; // Naya AI component link kar diya bhai
+import CourseAI from './CourseAI'; 
 
 function Course() {
   const { authUser } = useAuth();
   const [books, setBooks] = useState([]);
+  const [paidBooks, setPaidBooks] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Database se books lane ka kaam
   useEffect(() => {
     const getBooks = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://127.0.0.1:4001/books");
-        setBooks(res.data);
+        const res = await API.get('/books');
+        
+        // Comprehensive Array Fallback Check
+        const rawData = Array.isArray(res.data) ? res.data : [];
+        setBooks(rawData);
+        
+        const filteredPaid = rawData.filter((data) => {
+          if (!data.category) return true; 
+          return data.category.trim().toLowerCase() !== "free";
+        });
+        
+        setPaidBooks(filteredPaid);
       } catch (error) {
-        console.error("Error fetching books:", error.message);
+        console.error("Error fetching books from repository:", error.message);
       } finally {
         setLoading(false);
       }
@@ -30,10 +41,6 @@ function Course() {
     getBooks();
   }, []);
 
-  // Sirf paid books filter kiye database se
-  const paidBooks = books.filter((data) => data.category !== "Free");
-
-  // Local database books display limit logic
   const displayedLocalBooks = showAll ? paidBooks : paidBooks.slice(0, 4);
 
   const handleAcquire = (book) => {
@@ -48,9 +55,8 @@ function Course() {
   return (
     <div className="w-full min-h-screen font-['Poppins'] transition-colors duration-500 overflow-x-hidden bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       
-      {/* LEFT & RIGHT INTRO SECTION */}
+      {/* INTRODUCTORY SECTION */}
       <div className="max-w-screen-2xl mx-auto px-6 md:px-20 pt-24 pb-0 flex flex-col md:flex-row items-start justify-between gap-10">
-        {/* LEFT SECTION (Quotes & Typewriter) */}
         <div className="w-full md:w-3/5 z-10 mt-5">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <h1 className="text-3xl md:text-5xl font-serif font-bold text-amber-600 mb-6 leading-tight drop-shadow-sm">
@@ -77,7 +83,6 @@ function Course() {
           </motion.div>
         </div>
 
-        {/* RIGHT SECTION (Animated Circle & Dinkar Ji) */}
         <div className="w-full md:w-2/5 flex flex-col items-center justify-center relative min-h-[520px]">
           <div className="relative flex items-center justify-center scale-90 md:scale-100 -mt-24">
             <div className="absolute w-64 h-64 md:w-80 md:h-80 bg-amber-500/20 dark:bg-amber-500/10 rounded-full blur-[100px]"></div>
@@ -91,27 +96,26 @@ function Course() {
               </svg>
             </motion.div>
             <div className="absolute z-20 w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-amber-600 shadow-2xl bg-white dark:bg-slate-800">
-                <img src="https://imgs.search.brave.com/GXDlwNgAJYijZJfXni16rRbbATsyxhN2gpzN2FBURB0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzQyLzE5/Lzc0LzQyMTk3NGY1/MDA4YjFhZmMwZTI0/OThjOTdmOWQ4YjNi/LmpwZw" alt="Dinkar Ji" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+              <img src="https://imgs.search.brave.com/GXDlwNgAJYijZJfXni16rRbbATsyxhN2gpzN2FBURB0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzQyLzE5/Lzc0LzQyMTk3NGY1/MDA4YjFhZmMwZTI0/OThjOTdmOWQ4YjNi/LmpwZw" alt="Dinkar Ji" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
             </div>
           </div>
         </div>
       </div>
 
-      {/* --- LINKED COMPONENT: SEARCH BAR & AI TOOLS --- */}
-      {/* Isme search bar bhi hai, naya summary tool aur free PDF links bhi isi me handle honge */}
+      {/* SEARCH BAR & CONNECTED ALGORITHMS */}
       <CourseAI paidBooks={paidBooks} handleAcquire={handleAcquire} />
 
-      {/* LOCAL GOLDEN COLLECTION GRID */}
+      {/* GOLDEN COLLECTION GRID */}
       <div className='max-w-screen-2xl mx-auto px-6 md:px-20 mt-16 pb-20'>
         <div className="flex items-center gap-6 mb-12">
-            <h2 className="text-3xl font-black uppercase tracking-tighter italic text-amber-600">
-              Golden Collection
-            </h2>
-            <div className="h-[2px] flex-grow bg-gradient-to-r from-amber-600 to-transparent"></div>
+          <h2 className="text-3xl font-black uppercase tracking-tighter italic text-amber-600">
+            Golden Collection
+          </h2>
+          <div className="h-[2px] flex-grow bg-gradient-to-r from-amber-600 to-transparent"></div>
         </div>
 
         {loading ? (
-          <div className="text-center py-20 text-amber-600 font-bold animate-pulse">
+          <div className="text-center py-20 text-amber-600 font-bold animate-pulse tracking-widest">
             SHASTRA LOADING...
           </div>
         ) : (
@@ -119,33 +123,21 @@ function Course() {
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
               <AnimatePresence mode="popLayout">
                 {displayedLocalBooks.map((item, index) => (
-                  <motion.div 
-                    key={item._id || index} 
-                    layout 
-                    initial={{ opacity: 0, scale: 0.9 }} 
-                    animate={{ opacity: 1, scale: 1 }} 
-                    exit={{ opacity: 0, scale: 0.9 }} 
-                    className="group p-5 rounded-[2rem] border transition-all duration-500 shadow-lg relative overflow-hidden bg-slate-50 dark:bg-slate-900 border-amber-100 dark:border-slate-800 hover:border-amber-500"
+                  <motion.div
+                    key={item._id || item.id || index}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
                   >
-                    <div className='aspect-[3/4] rounded-[1.5rem] overflow-hidden mb-4 shadow-md bg-slate-200 dark:bg-slate-800'>
-                      <img src={item.image} className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500' alt={item.name}/>
-                    </div>
-                    <h2 className='text-md font-bold mb-3 truncate text-slate-900 dark:text-slate-100'>{item.name}</h2> 
-                    <div className='flex justify-between items-center'>
-                      <span className='text-xl font-black text-amber-600'>₹{item.price}</span>
-                      <button 
-                        onClick={() => handleAcquire(item)} 
-                        className="bg-amber-600 text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase hover:bg-black transition-colors"
-                      >
-                        Acquire
-                      </button>
-                    </div>
+                    {/* FIXED COMPONENT BRIDGE: Linking structured card styling safely */}
+                    <Card item={item} />
                   </motion.div>
                 ))}
               </AnimatePresence>
             </div>
 
-            {/* Show More / Less Controls */}
+            {/* Pagination / Expand Limits */}
             {paidBooks.length > 4 && (
               <div className="flex justify-center mt-16">
                 <button 
@@ -164,17 +156,21 @@ function Course() {
         )}
       </div>
 
-      {/* PAYMENT MODAL (Local books process) */}
+      {/* CENTRALIZED PORTAL DISPATCHER */}
       {selectedBook && (
         <PaymentModal 
           isOpen={isModalOpen} 
-          onClose={() => setIsModalOpen(false)} 
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedBook(null);
+          }} 
           bookId={selectedBook._id || selectedBook.id} 
           bookName={selectedBook.name} 
           bookPrice={selectedBook.price} 
           onProgressComplete={() => { 
             setIsModalOpen(false); 
             if(selectedBook.pdfUrl) window.open(selectedBook.pdfUrl, "_blank"); 
+            setSelectedBook(null);
           }} 
         />
       )}
