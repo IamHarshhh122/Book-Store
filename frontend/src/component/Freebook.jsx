@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import Slider from "react-slick";
-import Cards from "../Free/Card";
+import Cards from "./Card";
 
 const Freebook = () => {
   const [books, setBooks] = useState([]);
