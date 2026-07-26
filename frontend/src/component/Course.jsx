@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Typewriter } from 'react-simple-typewriter';
 import API from '../API';
-import PaymentModal from '../component/PaymentModal';
-import Card from './Card'; // Safely unified structural link
+import PaymentModal from './PaymentModal'; 
+import Card from './Card'; 
 import { useAuth } from "../context/AuthProvider";
 import CourseAI from './CourseAI'; 
 
@@ -21,7 +21,7 @@ function Course() {
     const getBooks = async () => {
       try {
         setLoading(true);
-        const res = await axios.get('https://book-store-9cxi.onrender.com/books');
+        const res = await axios.get('https://bobook-store-backend.onrender.com/books');
         
         // Comprehensive Array Fallback Check
         const rawData = Array.isArray(res.data) ? res.data : [];
@@ -103,7 +103,6 @@ function Course() {
         </div>
       </div>
 
-      {/* SEARCH BAR & CONNECTED ALGORITHMS */}
       <CourseAI paidBooks={paidBooks} handleAcquire={handleAcquire} />
 
       {/* GOLDEN COLLECTION GRID */}
@@ -131,7 +130,6 @@ function Course() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                   >
-                    {/* FIXED COMPONENT BRIDGE: Linking structured card styling safely */}
                     <Card item={item} />
                   </motion.div>
                 ))}
@@ -157,7 +155,7 @@ function Course() {
         )}
       </div>
 
-      {/* CENTRALIZED PORTAL DISPATCHER */}
+     
       {selectedBook && (
         <PaymentModal 
           isOpen={isModalOpen} 
