@@ -1,7 +1,7 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Typewriter } from 'react-simple-typewriter';
-import API from '../API';
 import PaymentModal from './PaymentModal'; 
 import Card from './Card'; 
 import { useAuth } from "../context/AuthProvider";
@@ -20,8 +20,8 @@ function Course() {
     const getBooks = async () => {
       try {
         setLoading(true);
-        // Direct API instance call
-        const res = await API.get('/books');
+        // Direct Render Backend API Call - No local API file dependency
+        const res = await axios.get('https://bobook-store-backend.onrender.com/books');
         
         const rawData = Array.isArray(res.data) ? res.data : [];
         setBooks(rawData);
