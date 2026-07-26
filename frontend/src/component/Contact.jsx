@@ -45,24 +45,25 @@ const Contact = () => {
     const userEmail = userInfo ? userInfo.email : null;
     
     if (!userEmail) { 
-        alert("Login please : without login you cannot continue "); 
+        alert("Login please : without login you cannot continue"); 
         setLoading(false); 
         return; 
     }
     if (rating === 0) { 
-        alert("False : plase rate the book"); 
+        alert("Please rate the book before submitting!"); 
         setLoading(false); 
         return; 
     }
 
     try {
-      const response = await axios.post('http://localhost:4001/user/submit-review', { 
+      // Live Render Backend API Call (Fixed Network Error)
+      const response = await axios.post('https://bobook-store-backend.onrender.com/user/submit-review', { 
         ...data, 
         rating, 
         email: userEmail 
       });
 
-      if (response.status === 201) { 
+      if (response.status === 201 || response.status === 200) { 
         setSubmitted(true); 
         setTimeout(() => { 
           setSubmitted(false); 
@@ -102,7 +103,6 @@ const Contact = () => {
         animate={{ opacity: 1, scale: 1 }}
         className={`relative z-10 w-full max-w-4xl mt-12 flex flex-col lg:flex-row rounded-[3rem] shadow-2xl overflow-hidden border ${isDark ? 'bg-[#0a0a1a]/80 border-white/10' : 'bg-white border-slate-200'} backdrop-blur-2xl`}
       >
-        =
         <div className={`lg:w-[35%] p-10 flex flex-col items-center justify-between border-r ${isDark ? 'bg-black/20 border-white/5' : 'bg-slate-50/50 border-slate-100'}`}>
           <div className="w-full flex justify-between items-center opacity-30">
             <FaCode size={18} />
@@ -125,9 +125,9 @@ const Contact = () => {
               <FaEnvelope size={14} /> Gmail
             </a>
             <div className="flex gap-2">
-              <a href="https://github.com/IamHarshhh122" target="_blank" className={`flex-1 flex justify-center py-3 rounded-xl ${isDark ? 'bg-white/5 hover:bg-white/10' : 'bg-white hover:bg-slate-100'} border border-transparent dark:border-white/5 transition-all shadow-sm`}><FaGithub size={18} /></a>
-              <a href="https://linkedin.com/in/harsh-bhatta-64985b32a" target="_blank" className={`flex-1 flex justify-center py-3 rounded-xl ${isDark ? 'bg-white/5 hover:bg-blue-600/10' : 'bg-white hover:bg-blue-50'} border border-transparent dark:border-white/5 transition-all shadow-sm text-blue-500`}><FaLinkedin size={18} /></a>
-              <a href="https://instagram.com/bhatta_harsh" target="_blank" className={`flex-1 flex justify-center py-3 rounded-xl ${isDark ? 'bg-white/5 hover:bg-pink-600/10' : 'bg-white hover:bg-pink-50'} border border-transparent dark:border-white/5 transition-all shadow-sm text-pink-500`}><FaInstagram size={18} /></a>
+              <a href="https://github.com/IamHarshhh122" target="_blank" rel="noreferrer" className={`flex-1 flex justify-center py-3 rounded-xl ${isDark ? 'bg-white/5 hover:bg-white/10' : 'bg-white hover:bg-slate-100'} border border-transparent dark:border-white/5 transition-all shadow-sm`}><FaGithub size={18} /></a>
+              <a href="https://linkedin.com/in/harsh-bhatta-64985b32a" target="_blank" rel="noreferrer" className={`flex-1 flex justify-center py-3 rounded-xl ${isDark ? 'bg-white/5 hover:bg-blue-600/10' : 'bg-white hover:bg-blue-50'} border border-transparent dark:border-white/5 transition-all shadow-sm text-blue-500`}><FaLinkedin size={18} /></a>
+              <a href="https://instagram.com/bhatta_harsh" target="_blank" rel="noreferrer" className={`flex-1 flex justify-center py-3 rounded-xl ${isDark ? 'bg-white/5 hover:bg-pink-600/10' : 'bg-white hover:bg-pink-50'} border border-transparent dark:border-white/5 transition-all shadow-sm text-pink-500`}><FaInstagram size={18} /></a>
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@ const Contact = () => {
                     <input {...register("name")} required className={`w-full bg-transparent border-b-2 py-2 outline-none font-bold text-xl transition-all ${isDark ? 'border-white/10 text-white focus:border-indigo-500' : 'border-slate-200 text-slate-900 focus:border-indigo-500'}`} placeholder="Who are you?" />
                   </div>
                   <div className='relative group'>
-                    <input {...register("book") } required className={`w-full bg-transparent border-b-2 py-2 outline-none font-bold text-xl transition-all ${isDark ? 'border-white/10 text-white focus:border-indigo-500' : 'border-slate-200 text-slate-900 focus:border-indigo-500'}`} placeholder="Book Name?" />
+                    <input {...register("book")} required className={`w-full bg-transparent border-b-2 py-2 outline-none font-bold text-xl transition-all ${isDark ? 'border-white/10 text-white focus:border-indigo-500' : 'border-slate-200 text-slate-900 focus:border-indigo-500'}`} placeholder="Book Name?" />
                   </div>
                   <textarea {...register("message")} required rows="3" className={`w-full rounded-2xl p-5 outline-none font-bold text-sm transition-all border ${isDark ? 'bg-white/5 border-white/5 text-white focus:border-indigo-500/50' : 'bg-slate-50 border-transparent text-slate-900 focus:ring-1 ring-indigo-500/20'}`} placeholder="What's the vibe?" />
                 </div>
