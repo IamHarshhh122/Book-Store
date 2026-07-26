@@ -2,10 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Typewriter } from 'react-simple-typewriter';
-import PaymentModal from './PaymentModal'; 
-import Card from './Card'; 
+import PaymentModal from './PaymentModal.jsx'; 
+import Card from './Card.jsx'; 
 import { useAuth } from "../context/AuthProvider";
-import CourseAI from './CourseAI'; 
+import CourseAI from './CourseAI.jsx';
 
 function Course() {
   const { authUser } = useAuth();
