@@ -1,8 +1,7 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Typewriter } from 'react-simple-typewriter';
-import API from '../API';
+import API from '../API.js';
 import PaymentModal from './PaymentModal'; 
 import Card from './Card'; 
 import { useAuth } from "../context/AuthProvider";
@@ -21,9 +20,9 @@ function Course() {
     const getBooks = async () => {
       try {
         setLoading(true);
-        const res = await axios.get('https://bobook-store-backend.onrender.com/books');
+        // Direct API instance call
+        const res = await API.get('/books');
         
-        // Comprehensive Array Fallback Check
         const rawData = Array.isArray(res.data) ? res.data : [];
         setBooks(rawData);
         
@@ -155,7 +154,6 @@ function Course() {
         )}
       </div>
 
-     
       {selectedBook && (
         <PaymentModal 
           isOpen={isModalOpen} 
