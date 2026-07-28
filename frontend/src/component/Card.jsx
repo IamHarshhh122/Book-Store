@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import PaymentModal from './PaymentModal';
 
 const Card = ({ item }) => {
@@ -8,16 +9,17 @@ const Card = ({ item }) => {
   const handleAction = (e) => {
     e.stopPropagation();
 
-    // 1. LocalStorage se Auth User check karo
+    // 1. LocalStorage se Auth User check
     const storageUser = localStorage.getItem("Users");
     const authUser = storageUser ? JSON.parse(storageUser) : null;
 
+    // 2. Unauthenticated user check
     if (!authUser || !authUser._id) {
       setShowAuthAlert(true);
       return;
     }
 
-    // 3.Check User Logged In ???
+    // 3. Authenticated user action
     if (item.category === "Free") {
       if (item.pdfUrl) {
         window.open(item.pdfUrl, "_blank");
@@ -83,13 +85,17 @@ const Card = ({ item }) => {
         />
       )}
 
-      {showAuthAlert && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+      {/* Auth Alert Portal -> Direct Root Level Rendering for Perfect Center Alignment */}
+      {showAuthAlert && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          {/* Backdrop */}
           <div 
             onClick={() => setShowAuthAlert(false)} 
-            className="absolute inset-0 bg-black/70 backdrop-blur-md transition-opacity"
+            className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity"
           />
-          <div className="relative bg-[#0f172a] text-white w-full max-w-md p-8 rounded-[2rem] shadow-[0_0_40px_rgba(219,39,119,0.2)] border border-white/10 z-10 text-center flex flex-col items-center">
+
+          {/* Modal Box */}
+          <div className="relative bg-[#0f172a] text-white w-full max-w-md p-8 rounded-[2rem] shadow-[0_0_50px_rgba(219,39,119,0.3)] border border-white/10 z-10 text-center flex flex-col items-center">
             
             <div className="w-16 h-16 bg-pink-500/10 rounded-2xl flex items-center justify-center border border-pink-500/20 mb-5">
               <span className="text-3xl">🔒</span>
@@ -100,7 +106,7 @@ const Card = ({ item }) => {
             </h3>
             
             <p className="text-slate-400 text-sm leading-relaxed mb-6 font-medium">
-              Please sign or Log in <span className="text-pink-500 font-bold">"{item.name}"</span> then read free books.
+              Please sign in to read <span className="text-pink-500 font-bold">"{item.name}"</span>.
             </p>
 
             <button 
@@ -117,7 +123,8 @@ const Card = ({ item }) => {
               ✕
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
