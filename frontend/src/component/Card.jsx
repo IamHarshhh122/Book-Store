@@ -35,7 +35,7 @@ const Card = ({ item }) => {
 
   const handleGoToLogin = () => {
     setShowAuthAlert(false);
-    navigate('/signup');
+    navigate('/Signup');
   };
 
   return (
