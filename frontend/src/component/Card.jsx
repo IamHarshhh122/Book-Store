@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useNavigate } from 'react-router-dom';
 import PaymentModal from './PaymentModal';
 
 const Card = ({ item }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showAuthAlert, setShowAuthAlert] = useState(false);
+  const navigate = useNavigate();
 
   const handleAction = (e) => {
     e.stopPropagation();
@@ -29,6 +31,11 @@ const Card = ({ item }) => {
     } else {
       setIsModalOpen(true);
     }
+  };
+
+  const handleGoToLogin = () => {
+    setShowAuthAlert(false);
+    navigate('/signup');
   };
 
   return (
@@ -62,7 +69,7 @@ const Card = ({ item }) => {
                 {item.price === 0 ? "FREE" : `₹${item.price}`}
               </span>
             </div>
-            <button onClick={handleAction} className="px-8 py-3 md:px-6 md:py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white text-xs md:text-[10px] font-black uppercase tracking-tighter hover:bg-pink-600 hover:text-white transition-all duration-300 active:scale-95" >
+            <button onClick={handleAction} className="px-8 py-3 md:px-6 md:py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white text-xs md:text-[10px] font-black uppercase tracking-tighter hover:bg-pink-600 hover:text-white transition-all duration-300 active:scale-95">
               {item.category === "Free" ? "Read Now" : "Unlock"}
             </button>
           </div>
@@ -85,16 +92,13 @@ const Card = ({ item }) => {
         />
       )}
 
-      {/* Auth Alert Portal -> Direct Root Level Rendering for Perfect Center Alignment */}
       {showAuthAlert && createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-          {/* Backdrop */}
           <div 
             onClick={() => setShowAuthAlert(false)} 
             className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity"
           />
 
-          {/* Modal Box */}
           <div className="relative bg-[#0f172a] text-white w-full max-w-md p-8 rounded-[2rem] shadow-[0_0_50px_rgba(219,39,119,0.3)] border border-white/10 z-10 text-center flex flex-col items-center">
             
             <div className="w-16 h-16 bg-pink-500/10 rounded-2xl flex items-center justify-center border border-pink-500/20 mb-5">
@@ -109,12 +113,22 @@ const Card = ({ item }) => {
               Please sign in to read <span className="text-pink-500 font-bold">"{item.name}"</span>.
             </p>
 
-            <button 
-              onClick={() => setShowAuthAlert(false)}
-              className="w-full bg-pink-600 hover:bg-pink-500 text-white font-black py-3.5 rounded-xl uppercase tracking-wider text-xs transition-all active:scale-95 shadow-lg shadow-pink-600/30"
-            >
-              Got It
-            </button>
+            <div className="flex flex-col w-full gap-3">
+     
+              <button 
+                onClick={handleGoToLogin}
+                className="w-full bg-pink-600 hover:bg-pink-500 text-white font-black py-3.5 rounded-xl uppercase tracking-wider text-xs transition-all active:scale-95 shadow-lg shadow-pink-600/30"
+              >
+                Go to Login / Signup 🚀
+              </button>
+
+              <button 
+                onClick={() => setShowAuthAlert(false)}
+                className="w-full bg-slate-800/80 hover:bg-slate-800 text-slate-400 hover:text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all"
+              >
+                Cancel
+              </button>
+            </div>
 
             <button 
               onClick={() => setShowAuthAlert(false)} 
