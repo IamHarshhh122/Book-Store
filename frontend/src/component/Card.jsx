@@ -110,7 +110,7 @@ const Card = ({ item }) => {
             </h3>
             
             <p className="text-slate-400 text-sm leading-relaxed mb-6 font-medium">
-              Please sign in to read <span className="text-pink-500 font-bold">"{item.name}"</span>.
+              Please Sign in Or Log in to read <span className="text-pink-500 font-bold">"{item.name}"</span>.
             </p>
 
             <div className="flex flex-col w-full gap-3">
