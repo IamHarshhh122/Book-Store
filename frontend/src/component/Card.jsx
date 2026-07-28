@@ -1,23 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import PaymentModal from './PaymentModal';
+import { toast } from 'react-hot-toast';
 
-const Card = ({item}) => {
+const Card = ({ item }) => {
   console.log("Open this Object:", item);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAction = (e) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
+
+    // 1. LocalStorage se Auth User Check karo
+    const storageUser = localStorage.getItem("Users");
+    const authUser = storageUser ? JSON.parse(storageUser) : null;
+
+    if (!authUser || !authUser._id) {
+      toast.error("Bhai, pehle login toh kar lo!");
+      return;
+    }
+
+    // 3.check User Logged In 
     if (item.category === "Free") {
       if (item.pdfUrl) {
         window.open(item.pdfUrl, "_blank");
       } else {
-        alert("Sorry, PDF URL not available.");
+        toast.error("Sorry, PDF URL not available.");
       }
     } else {
       setIsModalOpen(true);
     }
-  }
-
+  };
 
   return (
     <div className="py-6 px-4 md:px-2"> 
@@ -57,23 +68,22 @@ const Card = ({item}) => {
         </div>
       </div>
 
-    
-{isModalOpen && (
-  <PaymentModal 
-    key={item?._id || item?.id || "temp-key"} 
-    isOpen={isModalOpen} 
-    onClose={() => setIsModalOpen(false)} 
-    bookId={item?._id || item?.id || (item?.id ? item.id : undefined)} 
-    bookName={item?.name}
-    bookPrice={item?.price}
-    onProgressComplete={() => {
-      setIsModalOpen(false);
-      if(item.pdfUrl) window.open(item.pdfUrl, "_blank");
-    }}
-  />
-)}
+      {isModalOpen && (
+        <PaymentModal 
+          key={item?._id || item?.id || "temp-key"} 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+          bookId={item?._id || item?.id} 
+          bookName={item?.name}
+          bookPrice={item?.price}
+          onProgressComplete={() => {
+            setIsModalOpen(false);
+            if(item.pdfUrl) window.open(item.pdfUrl, "_blank");
+          }}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default Card;
