@@ -1,29 +1,28 @@
 import React, { useState } from 'react';
 import PaymentModal from './PaymentModal';
-import { toast } from 'react-hot-toast';
 
 const Card = ({ item }) => {
-  console.log("Open this Object:", item);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAuthAlert, setShowAuthAlert] = useState(false);
 
   const handleAction = (e) => {
     e.stopPropagation();
 
-    // 1. LocalStorage se Auth User Check karo
+    // 1. LocalStorage se Auth User check karo
     const storageUser = localStorage.getItem("Users");
     const authUser = storageUser ? JSON.parse(storageUser) : null;
 
     if (!authUser || !authUser._id) {
-      toast.error("Bhai, pehle login toh kar lo!");
+      setShowAuthAlert(true);
       return;
     }
 
-    // 3.check User Logged In 
+    // 3.Check User Logged In ???
     if (item.category === "Free") {
       if (item.pdfUrl) {
         window.open(item.pdfUrl, "_blank");
       } else {
-        toast.error("Sorry, PDF URL not available.");
+        alert("Sorry, PDF URL not available.");
       }
     } else {
       setIsModalOpen(true);
@@ -68,12 +67,13 @@ const Card = ({ item }) => {
         </div>
       </div>
 
+      {/* Payment Modal */}
       {isModalOpen && (
         <PaymentModal 
           key={item?._id || item?.id || "temp-key"} 
           isOpen={isModalOpen} 
           onClose={() => setIsModalOpen(false)} 
-          bookId={item?._id || item?.id} 
+          bookId={item?._id || item?.id || (item?.id ? item.id : undefined)} 
           bookName={item?.name}
           bookPrice={item?.price}
           onProgressComplete={() => {
@@ -81,6 +81,43 @@ const Card = ({ item }) => {
             if(item.pdfUrl) window.open(item.pdfUrl, "_blank");
           }}
         />
+      )}
+
+      {showAuthAlert && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+          <div 
+            onClick={() => setShowAuthAlert(false)} 
+            className="absolute inset-0 bg-black/70 backdrop-blur-md transition-opacity"
+          />
+          <div className="relative bg-[#0f172a] text-white w-full max-w-md p-8 rounded-[2rem] shadow-[0_0_40px_rgba(219,39,119,0.2)] border border-white/10 z-10 text-center flex flex-col items-center">
+            
+            <div className="w-16 h-16 bg-pink-500/10 rounded-2xl flex items-center justify-center border border-pink-500/20 mb-5">
+              <span className="text-3xl">🔒</span>
+            </div>
+
+            <h3 className="text-2xl font-black tracking-tight text-white mb-2">
+              Login Required
+            </h3>
+            
+            <p className="text-slate-400 text-sm leading-relaxed mb-6 font-medium">
+              Please sign or Log in <span className="text-pink-500 font-bold">"{item.name}"</span> then read free books.
+            </p>
+
+            <button 
+              onClick={() => setShowAuthAlert(false)}
+              className="w-full bg-pink-600 hover:bg-pink-500 text-white font-black py-3.5 rounded-xl uppercase tracking-wider text-xs transition-all active:scale-95 shadow-lg shadow-pink-600/30"
+            >
+              Got It
+            </button>
+
+            <button 
+              onClick={() => setShowAuthAlert(false)} 
+              className="absolute top-5 right-5 text-slate-500 hover:text-white transition-colors"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
