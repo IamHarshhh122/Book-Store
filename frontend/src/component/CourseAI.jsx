@@ -14,20 +14,18 @@ function CourseAI({ paidBooks, handleAcquire }) {
       return;
     }
 
-    // Database check
     const matchedInDB = paidBooks?.filter((b) =>
       b.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     if (matchedInDB && matchedInDB.length > 0) {
       setAiBooks([]); 
-      toast.success("Found in our Collection! Scroll down to explore 📚", { id: 'db-found' });
+      toast.success("Found in our Collection! Scroll down to explore 📚", { id: 'ai-toast' });
       return;
     }
 
     setAiLoading(true);
 
-    // Promise based clean single toast
     const searchPromise = new Promise((resolve, reject) => {
       setTimeout(() => {
         try {
@@ -56,11 +54,15 @@ function CourseAI({ paidBooks, handleAcquire }) {
       }, 1200);
     });
 
-    toast.promise(searchPromise, {
-      loading: 'AI is searching globally...',
-      success: (msg) => msg,
-      error: (err) => err,
-    });
+    toast.promise(
+      searchPromise, 
+      {
+        loading: 'AI is searching globally...',
+        success: (msg) => msg,
+        error: (err) => err,
+      },
+      { id: 'ai-global-search' }
+    );
   };
 
   return (
@@ -83,7 +85,6 @@ function CourseAI({ paidBooks, handleAcquire }) {
         </form>
       </div>
 
-      {/* AI RESULTS GRID */}
       {aiBooks.length > 0 && (
         <div className='max-w-screen-2xl mx-auto px-6 md:px-20 mt-16 pb-10'>
           <div className="flex items-center gap-6 mb-12">
