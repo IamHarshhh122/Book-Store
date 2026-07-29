@@ -14,7 +14,7 @@ function CourseAI({ paidBooks, handleAcquire }) {
       return;
     }
 
-    // 1. Local database mein check
+    // cloud/Local database mein check krenge 
     const matchedInDB = paidBooks.filter((b) =>
       b.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -29,13 +29,12 @@ function CourseAI({ paidBooks, handleAcquire }) {
     toast('Searching Globally... 🔍', { icon: '🤖' });
 
     try {
-      // Simulate backend API logic
       setTimeout(() => {
         const isPdfAvailableOnInternet = searchQuery.toLowerCase().includes('free') || searchQuery.toLowerCase().includes('pdf'); 
         const foundPdfUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"; 
 
         const aiResponse = [
-          {
+          {// ye batyaega ki jo new book sreach kiya ja rha h wo kaise dikhega..
             _id: `ai_${Date.now()}`,
             name: searchQuery.charAt(0).toUpperCase() + searchQuery.slice(1),
             image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=500&auto=format&fit=crop&q=60",
@@ -61,7 +60,6 @@ function CourseAI({ paidBooks, handleAcquire }) {
 
   return (
     <div className="w-full">
-      {/* --- SEARCH BAR --- */}
       <div className="max-w-screen-2xl mx-auto px-6 md:px-20 mt-10">
         <form onSubmit={handleSearchSubmit} className="max-w-2xl mx-auto flex items-center gap-4 bg-slate-50 dark:bg-slate-900 border border-amber-500/30 p-2 rounded-2xl shadow-xl">
           <input 
@@ -80,7 +78,7 @@ function CourseAI({ paidBooks, handleAcquire }) {
         </form>
       </div>
 
-      {/* --- AI RESULTS GRID --- */}
+      {/*  AI RESULTS GRID  */}
       {aiBooks.length > 0 && (
         <div className='max-w-screen-2xl mx-auto px-6 md:px-20 mt-16 pb-10'>
           <div className="flex items-center gap-6 mb-12">
@@ -109,9 +107,7 @@ function CourseAI({ paidBooks, handleAcquire }) {
                   </div>
                   <h2 className='text-md font-bold mb-3 truncate text-slate-900 dark:text-slate-100'>{item.name}</h2> 
                   
-                  {/* Dono options saath-saath dikhenge */}
                   <div className='flex flex-col gap-2'>
-                    {/* PDF download button, agar PDF hai */}
                     {item.pdfUrl && (
                       <button 
                         onClick={() => window.open(item.pdfUrl, "_blank")} 
@@ -120,7 +116,6 @@ function CourseAI({ paidBooks, handleAcquire }) {
                         📥 Download Free PDF
                       </button>
                     )}
-                    {/* Amazon purchase button, hamesha dikhega */}
                     <button 
                       onClick={() => handleAcquire(item)} 
                       className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider hover:from-amber-600 hover:to-orange-700 transition-all active:scale-95"
@@ -135,10 +130,9 @@ function CourseAI({ paidBooks, handleAcquire }) {
         </div>
       )}
 
-      {/* --- AI Loading --- */}
       {aiLoading && (
         <div className="text-center py-20 text-amber-600 font-bold animate-pulse tracking-widest">
-          🤖 AI IS SEARCHING GLOBALLY...
+          🤖 AI is searching globally ... Only foy you ....
         </div>
       )}
     </div>
