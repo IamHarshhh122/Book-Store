@@ -25,12 +25,10 @@ const Logout = () => {
         try {
           await axios.post("http://localhost:4001/user/logout", { userId });
         } catch (apiError) {
-          // Agar backend fail ho ya router na mile, toh console me error dikhega par app crash nahi hogi
           console.error("Backend logout request failed (safely bypassed for frontend):", apiError);
         }
       }
 
-      // Auth Cleanup (Ye hamesha execute hoga)
       setAuthUser(null);
       localStorage.removeItem("Users");
 
