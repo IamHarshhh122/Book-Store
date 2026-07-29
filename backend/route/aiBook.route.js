@@ -14,9 +14,6 @@ router.get("/search", async (req, res) => {
       });
     }
 
-    // -------------------------
-    // GOOGLE BOOKS
-    // -------------------------
     const googleRes = await axios.get(
       `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
         query
@@ -29,9 +26,6 @@ router.get("/search", async (req, res) => {
 
         let pdfUrl = null;
 
-        // -------------------------
-        // OPEN LIBRARY SEARCH
-        // -------------------------
         try {
           const openLibraryRes = await axios.get(
             `https://openlibrary.org/search.json?title=${encodeURIComponent(
@@ -48,9 +42,6 @@ router.get("/search", async (req, res) => {
           console.log("OpenLibrary Error:", err.message);
         }
 
-        // -------------------------
-        // INTERNET ARCHIVE SEARCH
-        // -------------------------
         if (!pdfUrl) {
           try {
             const archiveRes = await axios.get(
