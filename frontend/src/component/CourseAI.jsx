@@ -14,48 +14,53 @@ function CourseAI({ paidBooks, handleAcquire }) {
       return;
     }
 
-    // cloud/Local database mein check krenge 
-    const matchedInDB = paidBooks.filter((b) =>
+    // Database check
+    const matchedInDB = paidBooks?.filter((b) =>
       b.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    if (matchedInDB.length > 0) {
+    if (matchedInDB && matchedInDB.length > 0) {
       setAiBooks([]); 
-      toast.success("Shastra found in our Golden Collection! Niche check karo 📚");
+      toast.success("Found in our Collection! Scroll down to explore 📚", { id: 'db-found' });
       return;
     }
 
     setAiLoading(true);
-    toast('Searching Globally... 🔍', { icon: '🤖' });
 
-    try {
+    // Promise based clean single toast
+    const searchPromise = new Promise((resolve, reject) => {
       setTimeout(() => {
-        const isPdfAvailableOnInternet = searchQuery.toLowerCase().includes('free') || searchQuery.toLowerCase().includes('pdf'); 
-        const foundPdfUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"; 
+        try {
+          const isPdfAvailableOnInternet = searchQuery.toLowerCase().includes('free') || searchQuery.toLowerCase().includes('pdf'); 
+          const foundPdfUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"; 
 
-        const aiResponse = [
-          {// ye batyaega ki jo new book sreach kiya ja rha h wo kaise dikhega..
-            _id: `ai_${Date.now()}`,
-            name: searchQuery.charAt(0).toUpperCase() + searchQuery.slice(1),
-            image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=500&auto=format&fit=crop&q=60",
-            isAiGenerated: true,
-            pdfUrl: isPdfAvailableOnInternet ? foundPdfUrl : null, 
-            amazonUrl: `https://www.amazon.in/s?k=${encodeURIComponent(searchQuery)}+book`
-          }
-        ];
+          const aiResponse = [
+            {
+              _id: `ai_${Date.now()}`,
+              name: searchQuery.charAt(0).toUpperCase() + searchQuery.slice(1),
+              image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=500&auto=format&fit=crop&q=60",
+              isAiGenerated: true,
+              pdfUrl: isPdfAvailableOnInternet ? foundPdfUrl : null, 
+              amazonUrl: `https://www.amazon.in/s?k=${encodeURIComponent(searchQuery)}+book`
+            }
+          ];
 
-        setAiBooks(aiResponse);
-        setAiLoading(false);
-        if (isPdfAvailableOnInternet) {
-          toast.success("Free PDF traced successfully! 🎉");
-        } else {
-          toast.success("AI routed to External Partner for this book.");
+          setAiBooks(aiResponse);
+          setAiLoading(false);
+          
+          resolve(isPdfAvailableOnInternet ? "Free PDF traced successfully! 🎉" : "Routed to External Book Partner 📚");
+        } catch (err) {
+          setAiLoading(false);
+          reject("AI couldn't trace this book right now.");
         }
       }, 1200);
-    } catch (err) {
-      setAiLoading(false);
-      toast.error("AI couldn't trace this book right now.");
-    }
+    });
+
+    toast.promise(searchPromise, {
+      loading: 'AI is searching globally...',
+      success: (msg) => msg,
+      error: (err) => err,
+    });
   };
 
   return (
@@ -72,13 +77,13 @@ function CourseAI({ paidBooks, handleAcquire }) {
             }}
             className="w-full bg-transparent px-4 py-2 outline-none text-slate-900 dark:text-white font-medium"
           />
-          <button type="submit" className="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-3 rounded-xl transition-all active:scale-95 whitespace-nowrap">
-            Ask AI
+          <button type="submit" disabled={aiLoading} className="bg-amber-600 hover:bg-amber-700 disabled:opacity-50 text-white font-bold px-6 py-3 rounded-xl transition-all active:scale-95 whitespace-nowrap">
+            {aiLoading ? "Searching..." : "Ask AI"}
           </button>
         </form>
       </div>
 
-      {/*  AI RESULTS GRID  */}
+      {/* AI RESULTS GRID */}
       {aiBooks.length > 0 && (
         <div className='max-w-screen-2xl mx-auto px-6 md:px-20 mt-16 pb-10'>
           <div className="flex items-center gap-6 mb-12">
@@ -132,7 +137,7 @@ function CourseAI({ paidBooks, handleAcquire }) {
 
       {aiLoading && (
         <div className="text-center py-20 text-amber-600 font-bold animate-pulse tracking-widest">
-          🤖 AI is searching globally ... Only foy you ....
+          🤖 AI is searching globally for you...
         </div>
       )}
     </div>
