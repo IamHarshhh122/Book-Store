@@ -15,7 +15,6 @@ const ProjectRoute = ({ children }) => {
   const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD || "harsh@7140";
 
   useEffect(() => {
-    // Debugging ke liye console lagaya hai, inspect karke console check karna bro
     console.log("Current LoggedIn User:", authUser);
     console.log("Target Admin Email:", allowedEmail);
 
@@ -23,8 +22,6 @@ const ProjectRoute = ({ children }) => {
       setLoading(false);
       return;
     }
-
-    // Dono emails ko trim aur lowercase karke compare kar rahe hain safely
     const currentEmail = (authUser?.email || "").toLowerCase().trim();
 
     if (currentEmail !== allowedEmail) {
