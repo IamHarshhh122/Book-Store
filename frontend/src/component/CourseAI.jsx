@@ -36,7 +36,7 @@ function CourseAI({ paidBooks, handleAcquire }) {
             {
               _id: `ai_${Date.now()}`,
               name: searchQuery.charAt(0).toUpperCase() + searchQuery.slice(1),
-              image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=500&auto=format&fit=crop&q=60",
+              image: "https://imgs.search.brave.com/n7tOntLaXtZ7oFTvWBwyStRJsR4VlcBI-w85Y20hGMM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTM3/MDcyOTUzOS92ZWN0/b3IvYm9va3Mtb2Yt/aW1hZ2luYXRpb24t/c3VycmVhbC1hcnQt/ZmFudGFzeS1wYWlu/dGluZy1jb25jZXB0/LWlkZWEtb2YtZWR1/Y2F0aW9uLWRyZWFt/LWFuZC1yZWFkaW5n/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz0yOUt0Vzd1MlEt/ZWpkWXNPYXRCWW45/RTNrVlZMQ1E0ZU9a/VzFKRTZGWldrPQ",
               isAiGenerated: true,
               pdfUrl: isPdfAvailableOnInternet ? foundPdfUrl : null, 
               amazonUrl: `https://www.amazon.in/s?k=${encodeURIComponent(searchQuery)}+book`
