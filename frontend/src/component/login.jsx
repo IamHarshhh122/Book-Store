@@ -12,11 +12,10 @@ const Login = () => {
   const onSubmit = async (data) => {
     setLoading(true);
 
-    // 🔥 1. Get Admin Credentials from .env
     const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
     const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
 
-    // 🔥 2. Frontend Bypass Condition
+    //  Frontend Bypass Condition
     if (data.email === adminEmail && data.password === adminPassword) {
       const adminUser = {
         _id: "admin_bypass_id_123",
@@ -45,11 +44,9 @@ const Login = () => {
       return; 
     }
 
-    // 3. Normal User Logic (Database Fallback)
     const userInfo = { email: data.email, password: data.password };
 
     try {
-      // FIXED: Hardcoded localhost replaced with Live Production Endpoints
       const res = await axios.post("https://bobook-store-backend.onrender.com/user/login", userInfo);
       
       if (res.data) {
