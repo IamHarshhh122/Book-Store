@@ -254,9 +254,21 @@ const AdminDashboard = () => {
             </div>
 
             <h3 className="text-xl font-black text-white italic mb-1 uppercase">Confirm Delete</h3>
-           <p className="text-xs text-slate-400 mb-6">
-  Are you sure you want to permanently delete <span className="text-pink-500 font-bold">{userToDelete.fullname || userToDelete.email}</span>?
-          </p>
+          <div className="mb-6">
+  <p className="text-xs text-slate-400 mb-2">
+    Are you sure you want to permanently delete this user?
+  </p>
+ <div className="bg-slate-800/80 border border-slate-700/60 rounded-xl p-2.5 flex flex-col gap-0.5 text-center">
+    {userToDelete.fullname && (
+                <span className="text-pink-500 font-black text-sm uppercase tracking-wide">
+                     {userToDelete.fullname}
+                   </span>
+                            )}
+                        <span className="text-slate-400 font-mono text-[11px]">
+                          {userToDelete.email}
+                           </span>
+                       </div>
+                </div>
 
             <div className="flex items-center gap-3">
               <button
