@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { Plus, Trash2, Flower2, Database, Cpu, Code2, Box, Star, Calendar, Clock, Shield, Activity } from 'lucide-react';
+import { Plus, Trash2, Flower2, Database, Cpu, Code2, Box, Star, Calendar, Clock, Shield, Activity, AlertTriangle, X } from 'lucide-react';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openUserId, setOpenUserId] = useState(null);
   const [text, setText] = useState("");
-  
+  const [userToDelete, setUserToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const mantra = "ॐ अपवित्रः पवित्रो वा सर्वावस्थां गतोऽपि वा। यः स्मरेत् पुण्डरीकाक्षं स बाह्याभ्यन्तरः शुचिः॥";
 
-  
+  //  Typing Effect
   useEffect(() => {
     let i = 0;
     let isWaiting = false; 
@@ -54,19 +56,23 @@ const AdminDashboard = () => {
     fetchAdmins();
   }, []);
 
- 
-  const handleDeleteUser = async (userId) => {
-    if (!window.confirm("Bhai, kya sachme is user ko delete karna chahte ho?")) return;
+  // Final Delete Action
+  const confirmDeleteUser = async () => {
+    if (!userToDelete) return;
+    setIsDeleting(true);
 
     try {
       const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "https://bobook-store-backend.onrender.com";
-      await axios.delete(`${BACKEND_URL}/user/delete-user/${userId}`);
+      await axios.delete(`${BACKEND_URL}/user/delete-user/${userToDelete._id}`);
       
       toast.success("User deleted successfully!");
-      setUsers(users.filter((u) => u._id !== userId));
+      setUsers(users.filter((u) => u._id !== userToDelete._id));
+      setUserToDelete(null); 
     } catch (err) {
       console.error("Delete Error:", err);
       toast.error("Failed to delete user!");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -146,11 +152,13 @@ const AdminDashboard = () => {
                       <p className="text-[10px] font-mono text-slate-400">{user.email}</p>
                     </div>
                   </div>
+
+                  {/* ACTION BUTTONS */}
                   <div className="flex items-center gap-2">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleDeleteUser(user._id);
+                        setUserToDelete(user); // Triggers Custom Modal
                       }}
                       className="p-2.5 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-600 hover:text-white transition-all duration-300"
                       title="Delete User"
@@ -228,6 +236,46 @@ const AdminDashboard = () => {
           )}
         </div>
       </main>
+
+      {/*  CONFIRMATION DELETE BOX */}
+      {userToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-slate-900 border border-slate-700 rounded-3xl p-6 max-w-sm w-full shadow-2xl relative text-center">
+            
+            <button 
+              onClick={() => setUserToDelete(null)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-full bg-slate-800"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="w-12 h-12 bg-red-500/10 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-red-500/20">
+              <AlertTriangle size={24} />
+            </div>
+
+            <h3 className="text-xl font-black text-white italic mb-1 uppercase">Confirm Delete</h3>
+            <p className="text-xs text-slate-400 mb-6">
+              Bhai, kya sachme <span className="text-pink-500 font-bold">{userToDelete.fullname || userToDelete.email}</span> ko permanently delete karna chahte ho?
+            </p>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setUserToDelete(null)}
+                className="flex-1 py-3 px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDeleteUser}
+                disabled={isDeleting}
+                className="flex-1 py-3 px-4 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-red-600/30 transition-all disabled:opacity-50"
+              >
+                {isDeleting ? "Deleting..." : "Yes, Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .perspective-1000 { perspective: 1000px; }
