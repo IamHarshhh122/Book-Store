@@ -3,12 +3,14 @@ import Book from "../model/book.js";
 import bcryptjs from "bcryptjs";
 import mongoose from "mongoose";
 
+// SIGNUP
 export const signup = async (req, res) => {
     try {
         const { fullname, email, password } = req.body;
         
         const user = await User.findOne({ email });
         if (user) return res.status(400).json({ message: "Bhai, ye email pehle se register hai!" });
+        
         const hashedPassword = await bcryptjs.hash(password, 10);
         const createdUser = new User({
             fullname,
@@ -32,7 +34,7 @@ export const signup = async (req, res) => {
     }
 };
 
-//LOGIN
+// LOGIN
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -98,7 +100,7 @@ export const purchaseBook = async (req, res) => {
     }
 };
 
-// FOR GET MY BOOKS THEOUGH MONGODB
+// FOR GET MY BOOKS THROUGH MONGODB
 export const getMyBooks = async (req, res) => {
     try {
         const user = await User.findById(req.params.userId).populate("purchaseHistory.bookId");
@@ -128,6 +130,7 @@ export const getAllAdminsData = async (req, res) => {
     }
 };
 
+// SUBMIT REVIEW
 export const submitReview = async (req, res) => {
     try {
         const { email, book, message, rating, name } = req.body;
@@ -148,5 +151,22 @@ export const submitReview = async (req, res) => {
     } catch (error) {
         console.log("Error details:", error);
         res.status(500).json({ message: "Review save nahi hua!" });
+    }
+};
+
+// DELETE USER
+export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedUser = await User.findByIdAndDelete(id);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: "User nahi mila, bhai!" });
+        }
+
+        res.status(200).json({ message: "User deleted successfully!" });
+    } catch (error) {
+        console.error("Delete Error:", error);
+        res.status(500).json({ message: "Delete Error: " + error.message });
     }
 };
