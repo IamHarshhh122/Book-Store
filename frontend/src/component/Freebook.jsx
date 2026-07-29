@@ -16,7 +16,7 @@ const Freebook = () => {
         
         const res = await axios.get("https://bobook-store-backend.onrender.com/book");
         
-        // FIXED: Sare variable names ab ekdam synced hain
+        // Sare variable names ab ekdam synced hain
         const rawBooks = Array.isArray(res.data) ? res.data : (res.data.books || []);
         const freeBooks = rawBooks.filter((data) => data.category === "Free");
         
@@ -32,7 +32,7 @@ const Freebook = () => {
 
   const settings = {
     dots: true,
-    infinite: books.length > 3, // FIXED: book.length se books.length kiya
+    infinite: books.length > 3, 
     speed: 800,
     slidesToShow: 3,
     slidesToScroll: 1,
