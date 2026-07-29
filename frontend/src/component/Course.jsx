@@ -55,7 +55,6 @@ function Course() {
   return (
     <div className="w-full min-h-screen font-['Poppins'] transition-colors duration-500 overflow-x-hidden bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       
-      {/* INTRODUCTORY SECTION */}
       <div className="max-w-screen-2xl mx-auto px-6 md:px-20 pt-24 pb-0 flex flex-col md:flex-row items-start justify-between gap-10">
         <div className="w-full md:w-3/5 z-10 mt-5">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
@@ -135,7 +134,7 @@ function Course() {
               </AnimatePresence>
             </div>
 
-            {/* Pagination / Expand Limits */}
+            {/* Pagination- Define to extend the page mtlb ek page bahut bada h to uske kuch elemnt dikhana ya chupana */}
             {paidBooks.length > 4 && (
               <div className="flex justify-center mt-16">
                 <button 
