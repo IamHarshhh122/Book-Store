@@ -45,8 +45,11 @@ function CourseAI({ paidBooks, handleAcquire }) {
 
           setAiBooks(aiResponse);
           setAiLoading(false);
-          
-          resolve(isPdfAvailableOnInternet ? "Free PDF traced successfully! 🎉" );
+          resolve(
+  isPdfAvailableOnInternet 
+    ? "Free PDF traced successfully! 🎉" 
+    : "Shastra located with External Partner! 📖✨"
+);
         } catch (err) {
           setAiLoading(false);
           reject("AI couldn't trace this book right now.");
