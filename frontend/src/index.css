@@ -26,7 +26,7 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px #f1f5f9 inset !important;
     -webkit-text-fill-color: #0f172a !important; 
 }
-/* 2. Dark mode ke liye alag fix */
+/*  Dark mode ke liye alag se  fix */
 .dark input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px #1e293b inset !important; 
     -webkit-text-fill-color: #ffffff !important;
