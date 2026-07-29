@@ -254,9 +254,9 @@ const AdminDashboard = () => {
             </div>
 
             <h3 className="text-xl font-black text-white italic mb-1 uppercase">Confirm Delete</h3>
-            <p className="text-xs text-slate-400 mb-6">
-              Bhai, kya sachme <span className="text-pink-500 font-bold">{userToDelete.fullname || userToDelete.email}</span> ko permanently delete karna chahte ho?
-            </p>
+           <p className="text-xs text-slate-400 mb-6">
+  Are you sure you want to permanently delete <span className="text-pink-500 font-bold">{userToDelete.fullname || userToDelete.email}</span>?
+          </p>
 
             <div className="flex items-center gap-3">
               <button
