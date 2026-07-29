@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { Plus, Flower2, Database, Cpu, Code2, Box, Star, Calendar, Clock, Shield, Activity } from 'lucide-react';
+import { Plus, Trash2, Flower2, Database, Cpu, Code2, Box, Star, Calendar, Clock, Shield, Activity } from 'lucide-react';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -11,7 +11,7 @@ const AdminDashboard = () => {
   
   const mantra = "ॐ अपवित्रः पवित्रो वा सर्वावस्थां गतोऽपि वा। यः स्मरेत् पुण्डरीकाक्षं स बाह्याभ्यन्तरः शुचिः॥";
 
-  // Mantra Typing Effect
+  
   useEffect(() => {
     let i = 0;
     let isWaiting = false; 
@@ -53,6 +53,22 @@ const AdminDashboard = () => {
     };
     fetchAdmins();
   }, []);
+
+ 
+  const handleDeleteUser = async (userId) => {
+    if (!window.confirm("Bhai, kya sachme is user ko delete karna chahte ho?")) return;
+
+    try {
+      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "https://bobook-store-backend.onrender.com";
+      await axios.delete(`${BACKEND_URL}/user/delete-user/${userId}`);
+      
+      toast.success("User deleted successfully!");
+      setUsers(users.filter((u) => u._id !== userId));
+    } catch (err) {
+      console.error("Delete Error:", err);
+      toast.error("Failed to delete user!");
+    }
+  };
 
   if (loading) return (
     <div className="h-screen bg-white flex flex-col items-center justify-center">
@@ -130,8 +146,21 @@ const AdminDashboard = () => {
                       <p className="text-[10px] font-mono text-slate-400">{user.email}</p>
                     </div>
                   </div>
-                  <div className={`p-2.5 rounded-xl transition-all duration-500 ${openUserId === user._id ? 'bg-pink-500 text-white rotate-90' : 'bg-slate-900 text-slate-400'}`}>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteUser(user._id);
+                      }}
+                      className="p-2.5 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-600 hover:text-white transition-all duration-300"
+                      title="Delete User"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+
+                    <div className={`p-2.5 rounded-xl transition-all duration-500 ${openUserId === user._id ? 'bg-pink-500 text-white rotate-90' : 'bg-slate-900 text-slate-400'}`}>
                       {openUserId === user._id ? <Activity size={18} /> : <Plus size={18} />}
+                    </div>
                   </div>
                 </div>
 
