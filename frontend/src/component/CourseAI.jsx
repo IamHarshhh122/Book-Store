@@ -48,13 +48,13 @@ function CourseAI({ paidBooks, handleAcquire }) {
           resolve(
   isPdfAvailableOnInternet 
     ? "Free PDF traced successfully! 🎉" 
-    : "Shastra located with External Partner! 📖✨"
+    : "📖 Found in Our small world 😊 ✨"
 );
         } catch (err) {
           setAiLoading(false);
           reject("AI couldn't trace this book right now.");
         }
-      }, 1200);
+      }, 2000);
     });
 
     toast.promise(
