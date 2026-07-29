@@ -97,7 +97,6 @@ function Dashboard() {
           </motion.div>
         </div>
 
-        {/* --- HEADER SECTION (CODEX & POETRY) --- */}
         <header className="relative mt-0 pt-0 flex flex-col lg:flex-row items-center justify-between gap-2 border-b border-slate-200 dark:border-white/5 pb-16">
           <AsteroidRain />
           <div className="flex-1 space-y-6 text-center lg:text-left order-2 lg:order-1 relative z-10">
@@ -144,14 +143,16 @@ function Dashboard() {
               <div className="p-6 border-l-2 border-emerald-500/30 bg-emerald-500/5 rounded-r-2xl max-w-xl mx-auto lg:mx-0">
                 <h3 className="text-emerald-500 font-bold mb-2 tracking-wide text-xs">॥ मिथक नववर्ष : एक कवि का सवाल ॥</h3>
                 <div className="text-sm italic font-serif text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
-                  <p>है धरा वही, है गगन वही, है समय वही, भूखंड वही।</p>
-                  <p>वही। है भाव वही, अभाव वही, इस काल में फैला दुष्प्रभाव वही।</p>
-                  <p>न नये वृक्ष ने जन्म लिया, न किसी ने ढंग का कर्म किया। </p>
-                  <p> ये मदिरा-पाण को कंठ लगाये, मांस-भक्षण से भूख बुझाए।</p>
-                  <p>बाजू में दंगा फैला है, सुना है हिंदू वहां अकेला है ?</p>
-                  <p>अरे पिछले वर्ष तो आतंकी आए, धर्म के नाम पर रक्त बहाए।</p>
-                  <p>जिनके घर के लोग गए, क्या मैं उनको मिष्ठान खिलाऊं?</p>
-                  <p><b>क्यों... आखिर क्यों, मैं इस मिथक नववर्ष का त्यौहार मनाऊं?</b></p>
+                  <div className="space-y-3 text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+  <p>आज राम, अभी राम, कल राम, कभी राम,</p>
+  <p>संकट में जब घिरूँ, तो रक्षक सदा तभी राम।</p>
+  <p>आकाश राम, पाताल राम, ठिठुरन राम, जली राम,</p>
+  <p>वृक्ष राम, तना राम, वन की सघन गली राम।</p>
+  <p>आदि राम, अनंत राम, पल-पल और अतीत राम,</p>
+  <p className="text-pink-600 dark:text-pink-500 font-bold text-lg mt-2">
+    <b>सृष्टि के कण-कण में, पुरुषोत्तम के में संगीत राम।</b>
+  </p>
+</div>
                   
                   <div className="mt-6 flex items-center gap-4">
                     <motion.a 
