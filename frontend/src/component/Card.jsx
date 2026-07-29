@@ -11,17 +11,16 @@ const Card = ({ item }) => {
   const handleAction = (e) => {
     e.stopPropagation();
 
-    // 1. LocalStorage se Auth User check
+    //  authenticated user check
     const storageUser = localStorage.getItem("Users");
     const authUser = storageUser ? JSON.parse(storageUser) : null;
 
-    // 2. Unauthenticated user check
+    //  unauthenticated user check
     if (!authUser || !authUser._id) {
       setShowAuthAlert(true);
       return;
     }
 
-    // 3. Authenticated user action
     if (item.category === "Free") {
       if (item.pdfUrl) {
         window.open(item.pdfUrl, "_blank");
@@ -76,7 +75,7 @@ const Card = ({ item }) => {
         </div>
       </div>
 
-      {/* Payment Modal */}
+      {/* Payment Modal ka logic */}
       {isModalOpen && (
         <PaymentModal 
           key={item?._id || item?.id || "temp-key"} 
