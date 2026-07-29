@@ -46,7 +46,7 @@ function CourseAI({ paidBooks, handleAcquire }) {
           setAiBooks(aiResponse);
           setAiLoading(false);
           
-          resolve(isPdfAvailableOnInternet ? "Free PDF traced successfully! 🎉" : "Routed to External Book Partner 📚");
+          resolve(isPdfAvailableOnInternet ? "Free PDF traced successfully! 🎉" );
         } catch (err) {
           setAiLoading(false);
           reject("AI couldn't trace this book right now.");
