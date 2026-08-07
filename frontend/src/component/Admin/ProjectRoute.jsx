@@ -21,7 +21,7 @@ const ProjectRoute = ({ children }) => {
     const currentEmail = (authUser?.email || "").toLowerCase().trim();
 
     if (currentEmail !== allowedEmail) {
-      toast.error("Access Denied: Restricted Area", { 
+      toast.error("Access Denied: Restricted Zone Onlt Admin can entre in this gate !", { 
         id: "no-boss",
         style: { 
           borderRadius: '12px', 
@@ -40,25 +40,25 @@ const ProjectRoute = ({ children }) => {
       if (Swal.isVisible()) return;
 
       Swal.fire({
-        title: "Admin Verification",
-        text: "Enter secure passcode to continue",
+        title: "Required Verification ",
+        text: "The mainframe requires your secret key to proceed...",
         input: "password",
         inputAttributes: {
-          placeholder: "••••••••",
+          placeholder: "Type secret code...",
           autocapitalize: "off",
           autocorrect: "off"
         },
-        confirmButtonText: "Authenticate",
+        confirmButtonText: "Unlock Codex",
         confirmButtonColor: "#10b981",
         background: "#020617",
         color: "#ffffff",
-        backdrop: `rgba(2, 6, 23, 0.85) backdrop-filter blur(12px)`,
+        backdrop: `rgba(2, 6, 23, 0.9) backdrop-filter blur(15px)`,
         allowOutsideClick: false,
         customClass: {
-          popup: 'border border-emerald-500/30 rounded-[2rem] shadow-[0_0_50px_rgba(16,185,129,0.15)] p-6',
-          title: 'font-black uppercase tracking-tight text-xl text-white',
-          input: 'bg-white/5 border border-white/10 rounded-xl text-white px-4 py-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm mt-3',
-          confirmButton: 'bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black uppercase text-xs tracking-widest px-6 py-3.5 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-all mt-4 w-full'
+          popup: 'border border-emerald-500/40 rounded-[2.5rem] shadow-[0_0_60px_rgba(16,185,129,0.2)] p-8',
+          title: 'font-black uppercase tracking-tight text-xl text-emerald-400',
+          input: 'bg-white/5 border border-white/10 rounded-xl text-white px-4 py-3.5 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm mt-3 tracking-widest text-center',
+          confirmButton: 'bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black uppercase text-xs tracking-widest px-6 py-4 rounded-xl shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all mt-5 w-full'
         },
         buttonsStyling: false
       }).then((result) => {
@@ -69,7 +69,7 @@ const ProjectRoute = ({ children }) => {
 
             toast.dismiss();
             setTimeout(() => {
-              toast("Welcome back, Admin.", {
+              toast("Systems Online. Welcome back, Admin!", {
                 duration: 4000,
                 style: { 
                   borderRadius: '12px', 
@@ -84,15 +84,15 @@ const ProjectRoute = ({ children }) => {
           } else {
             Swal.fire({
               icon: 'error',
-              title: 'Access Denied',
-              text: 'Incorrect passcode provided.',
+              title: 'Breach Detected!',
+              text: 'Wrong key! Intruder alert activated !!',
               background: '#020617',
               color: '#ffffff',
               confirmButtonText: 'Try Again',
               customClass: {
-                popup: 'border border-red-500/30 rounded-[2rem] p-6 shadow-2xl',
-                title: 'font-black uppercase tracking-tight text-lg text-red-400',
-                confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-black uppercase text-xs tracking-widest px-6 py-3 rounded-xl mt-4 w-full'
+                popup: 'border border-red-500/40 rounded-[2.5rem] p-8 shadow-2xl',
+                title: 'font-black uppercase tracking-tight text-lg text-red-500',
+                confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-black uppercase text-xs tracking-widest px-6 py-3.5 rounded-xl mt-5 w-full shadow-[0_0_20px_rgba(239,68,68,0.4)]'
               },
               buttonsStyling: false
             });
