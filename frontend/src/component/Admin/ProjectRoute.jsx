@@ -10,14 +10,10 @@ const ProjectRoute = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState(sessionStorage.getItem("isAdmin") === "true");
   const [loading, setLoading] = useState(true);
 
-  // Hardcoded fallback lagaya hai agar env load na ho raha ho
   const allowedEmail = (import.meta.env.VITE_ADMIN_EMAIL || "harshbhatta5@gmail.com").toLowerCase().trim();
   const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD || "harsh@7140";
 
   useEffect(() => {
-    console.log("Current LoggedIn User:", authUser);
-    console.log("Target Admin Email:", allowedEmail);
-
     if (!authUser) {
       setLoading(false);
       return;
@@ -25,7 +21,17 @@ const ProjectRoute = ({ children }) => {
     const currentEmail = (authUser?.email || "").toLowerCase().trim();
 
     if (currentEmail !== allowedEmail) {
-      toast.error("Access Denied! Only Boss Allowed 😎", { id: "no-boss" });
+      toast.error("Access Denied: Restricted Area", { 
+        id: "no-boss",
+        style: { 
+          borderRadius: '12px', 
+          background: '#020617', 
+          color: '#ef4444', 
+          border: '1px solid rgba(239, 68, 68, 0.2)',
+          fontWeight: 'bold',
+          fontSize: '13px'
+        }
+      });
       setLoading(false);
       return;
     }
@@ -34,14 +40,27 @@ const ProjectRoute = ({ children }) => {
       if (Swal.isVisible()) return;
 
       Swal.fire({
-        title: "🛡️ Admin Access",
-        text: "Identifying Boss... Enter Secret Key.",
+        title: "Admin Verification",
+        text: "Enter secure passcode to continue",
         input: "password",
-        confirmButtonColor: "#db2777",
-        background: "#0f172a",
-        color: "#f8fafc",
-        backdrop: `rgba(15, 23, 42, 0.9) blur(10px)`,
+        inputAttributes: {
+          placeholder: "••••••••",
+          autocapitalize: "off",
+          autocorrect: "off"
+        },
+        confirmButtonText: "Authenticate",
+        confirmButtonColor: "#10b981",
+        background: "#020617",
+        color: "#ffffff",
+        backdrop: `rgba(2, 6, 23, 0.85) backdrop-filter blur(12px)`,
         allowOutsideClick: false,
+        customClass: {
+          popup: 'border border-emerald-500/30 rounded-[2rem] shadow-[0_0_50px_rgba(16,185,129,0.15)] p-6',
+          title: 'font-black uppercase tracking-tight text-xl text-white',
+          input: 'bg-white/5 border border-white/10 rounded-xl text-white px-4 py-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm mt-3',
+          confirmButton: 'bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black uppercase text-xs tracking-widest px-6 py-3.5 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-all mt-4 w-full'
+        },
+        buttonsStyling: false
       }).then((result) => {
         if (result.isConfirmed) {
           if (result.value === adminPassword) {
@@ -50,26 +69,32 @@ const ProjectRoute = ({ children }) => {
 
             toast.dismiss();
             setTimeout(() => {
-              toast("Welcome Boss! I'm waiting for you. 👑", {
-                duration: 5000,
-                style: {
-                  borderRadius: '15px',
-                  background: '#1e293b',
-                  color: '#fff',
-                  border: '2px solid #db2777',
-                  padding: '16px',
+              toast("Welcome back, Admin.", {
+                duration: 4000,
+                style: { 
+                  borderRadius: '12px', 
+                  background: '#020617', 
+                  color: '#10b981', 
+                  border: '1px solid rgba(16, 185, 129, 0.2)',
                   fontWeight: 'bold',
+                  fontSize: '13px'
                 },
               });
-            }, 600);
+            }, 400);
           } else {
             Swal.fire({
               icon: 'error',
-              title: 'Wrong Key!',
-              text: 'Users Do not Enter in Restricted area!!!',
-              background: '#0f172a',
-              color: '#fff',
-              confirmButtonColor: '#db2777'
+              title: 'Access Denied',
+              text: 'Incorrect passcode provided.',
+              background: '#020617',
+              color: '#ffffff',
+              confirmButtonText: 'Try Again',
+              customClass: {
+                popup: 'border border-red-500/30 rounded-[2rem] p-6 shadow-2xl',
+                title: 'font-black uppercase tracking-tight text-lg text-red-400',
+                confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-black uppercase text-xs tracking-widest px-6 py-3 rounded-xl mt-4 w-full'
+              },
+              buttonsStyling: false
             });
             setIsAuthorized(false);
           }
@@ -81,7 +106,13 @@ const ProjectRoute = ({ children }) => {
     }
   }, [authUser, isAuthorized, allowedEmail, adminPassword]);
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#020617] flex items-center justify-center">
+        <div className="w-8 h-8 border-3 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   const currentEmail = (authUser?.email || "").toLowerCase().trim();
   return (currentEmail === allowedEmail && isAuthorized) ? children : <Navigate to="/" replace />;
