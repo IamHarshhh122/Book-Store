@@ -141,7 +141,7 @@ const PaymentModal = ({ isOpen, onClose, bookId, bookName, bookPrice, onProgress
                         onChange={handleChange} 
                         required 
                         type="password" 
-                        placeholder="***" 
+                        placeholder="****" 
                         className="w-full bg-slate-800/50 p-4 text-sm border border-white/5 rounded-xl outline-none focus:border-pink-500" 
                       />
                     </div>
