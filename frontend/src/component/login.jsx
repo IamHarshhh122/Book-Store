@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useAuth } from "../context/AuthProvider";
-import { motion, AnimatePresence } from "framer-motion";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -21,7 +20,7 @@ const Login = () => {
     if (adminEmail && adminPassword && data.email === adminEmail && data.password === adminPassword) {
       const adminUser = {
         _id: "admin_bypass_id_123",
-        fullname: "System Architect",
+        fullname: "Admin",
         email: adminEmail,
         role: "admin"
       };
@@ -30,18 +29,16 @@ const Login = () => {
       localStorage.setItem("Users", JSON.stringify(adminUser));
       setAuthUser(adminUser);
 
-      toast.success('Access Granted: Administrator Matrix', {
-        duration: 4000,
+      toast.success('Welcome back, Admin!', {
+        duration: 3000,
         position: 'top-center',
         style: { 
-          borderRadius: '16px', 
-          background: '#020617', 
-          color: '#10b981', 
-          border: '1px solid rgba(16, 185, 129, 0.2)',
-          fontWeight: 'bold',
-          fontSize: '12px',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em'
+          borderRadius: '12px', 
+          background: '#18181b', 
+          color: '#fff', 
+          border: '1px solid #27272a',
+          fontWeight: '500',
+          fontSize: '14px',
         },
       });
 
@@ -64,18 +61,16 @@ const Login = () => {
       if (res.data) {
         const loggedInUser = res.data.user;
 
-        toast.success('Authentication Successful. Welcome to the Codex.', {
-          duration: 4000,
+        toast.success('Logged in successfully!', {
+          duration: 3000,
           position: 'top-center',
           style: { 
-            borderRadius: '16px', 
-            background: '#020617', 
-            color: '#10b981', 
-            border: '1px solid rgba(16, 185, 129, 0.2)',
-            fontWeight: 'bold',
-            fontSize: '12px',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em'
+            borderRadius: '12px', 
+            background: '#18181b', 
+            color: '#fff', 
+            border: '1px solid #27272a',
+            fontWeight: '500',
+            fontSize: '14px',
           },
         });
 
@@ -92,16 +87,14 @@ const Login = () => {
       }
     } catch (err) {
       setLoading(false);
-      toast.error(err.response ? err.response.data.message : "Authentication Error: Invalid Credentials", {
+      toast.error(err.response ? err.response.data.message : "Invalid email or password", {
         style: { 
-          borderRadius: '16px', 
-          background: '#020617', 
+          borderRadius: '12px', 
+          background: '#18181b', 
           color: '#ef4444', 
-          border: '1px solid rgba(239, 68, 68, 0.2)',
-          fontWeight: 'bold',
-          fontSize: '12px',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em'
+          border: '1px solid #27272a',
+          fontWeight: '500',
+          fontSize: '14px',
         },
       });
     }
@@ -110,88 +103,84 @@ const Login = () => {
   return (
     <div>
       {loading && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/80 backdrop-blur-md">
-          <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin"></div>
-          <p className="mt-4 font-black tracking-widest text-emerald-400 uppercase text-xs animate-pulse">Establishing Secure Link...</p>
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="w-8 h-8 border-3 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-3 font-medium text-white text-sm">Please wait...</p>
         </div>
       )}
 
       <button 
         onClick={() => document.getElementById("my_modal_3").showModal()} 
-        className="p-2 active:scale-90 transition-all group"
+        className="p-2 active:scale-95 transition-all"
       >
-        <img src="/logout2.png" alt="Login" className="w-10 h-10 rounded-full border-2 border-emerald-500/30 group-hover:border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.2)] transition-all object-cover" />
+        <img src="/logout2.png" alt="Login" className="w-10 h-10 rounded-full border border-slate-700 object-cover shadow-sm" />
       </button>
 
-      <dialog id="my_modal_3" className="modal backdrop-blur-sm">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95, y: 15 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          className="modal-box bg-[#020617] border border-emerald-500/30 rounded-[2.5rem] p-8 shadow-[0_0_50px_rgba(16,185,129,0.1)] relative text-white max-w-md w-full"
-        >
+      <dialog id="my_modal_3" className="modal backdrop-blur-md">
+        <div className="modal-box bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-2xl relative text-slate-900 dark:text-white max-w-md w-full">
           <button 
             type="button" 
             onClick={() => document.getElementById("my_modal_3").close()} 
-            className="absolute right-6 top-6 w-8 h-8 rounded-full bg-white/5 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-400 flex items-center justify-center transition-all font-bold"
+            className="absolute right-6 top-6 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors"
           >
             ✕
           </button>
 
-          <div className="text-center mb-8 pt-2">
-            <h3 className="font-black text-2xl uppercase tracking-tighter italic">
-              ENTER <span className="text-emerald-500">THE NEXUS</span>
+          <div className="text-center mb-6">
+            <h3 className="font-bold text-2xl tracking-tight">
+              Welcome <span className="text-emerald-500">Back</span>
             </h3>
-            <p className="text-[10px] font-black text-slate-400 tracking-widest uppercase mt-1">
-              Secure Terminal Authentication
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              Please enter your details to sign in
             </p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">
-                Email Address
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+                Email
               </label>
               <input 
                 type="email" 
-                placeholder="name@domain.com" 
-                className="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-600 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm font-medium transition-all" 
+                placeholder="Enter your email" 
+                className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white outline-none focus:border-emerald-500 transition-all text-sm" 
                 {...register("email", { required: true })} 
               />
-              {errors.email && <span className="text-red-500 text-[10px] font-bold mt-1 block">Field required</span>}
+              {errors.email && <span className="text-red-500 text-xs mt-1 block">Email is required</span>}
             </div>
 
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
                 Password
               </label>
               <input 
                 type="password" 
-                placeholder="••••••••" 
-                className="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-600 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm font-medium transition-all" 
+                placeholder="Enter your password" 
+                className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white outline-none focus:border-emerald-500 transition-all text-sm" 
                 {...register("password", { required: true })} 
               />
-              {errors.password && <span className="text-red-500 text-[10px] font-bold mt-1 block">Field required</span>}
+              {errors.password && <span className="text-red-500 text-xs mt-1 block">Password is required</span>}
             </div>
 
             <button 
               type="submit" 
-              className="w-full py-4 mt-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs uppercase tracking-widest active:scale-95 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+              className="w-full py-3.5 mt-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm transition-all shadow-sm active:scale-[0.98]"
             >
-              Start your session
+              Sign In
             </button>
           </form>
 
-          <p className="text-center mt-6 text-xs text-slate-400 font-medium">
-            New user?{' '}
+          <p className="text-center mt-6 text-xs text-slate-500 dark:text-slate-400">
+            Don't have an account?{' '}
             <Link 
               to="/signup" 
               onClick={() => document.getElementById("my_modal_3").close()} 
-              className="text-emerald-400 font-bold hover:underline ml-1"
+              className="text-emerald-500 font-semibold hover:underline ml-1"
             >
-              Create Account
+              Sign up
             </Link>
           </p>
-        </motion.div>
+        </div>
         
         <form method="dialog" className="modal-backdrop">
           <button>close</button>
