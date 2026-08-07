@@ -54,6 +54,7 @@ function Dashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [stage, setStage] = useState('english');
+  const [activePdf, setActivePdf] = useState(null);
 
   useEffect(() => {
     const stages = ['english', 'hindi', 'sanskrit'];
@@ -66,9 +67,14 @@ function Dashboard() {
     const fetchMyBooks = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:4001/user/mybooks/${authUser?._id}`);
+        if (!authUser?._id) return;
+        const res = await axios.get(`https://bobook-store-backend.onrender.com/user/mybooks/${authUser._id}`);
         setPurchasedBooks(Array.isArray(res.data) ? res.data : []);
-      } catch (err) { console.error(err); } finally { setLoading(false); }
+      } catch (err) { 
+        console.error(err); 
+      } finally { 
+        setLoading(false); 
+      }
     };
     
     if (authUser?._id) fetchMyBooks();
@@ -144,15 +150,15 @@ function Dashboard() {
                 <h3 className="text-emerald-500 font-bold mb-2 tracking-wide text-xs">॥ मिथक नववर्ष : एक कवि का सवाल ॥</h3>
                 <div className="text-sm italic font-serif text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
                   <div className="space-y-3 text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-  <p>आज राम, अभी राम, कल राम, कभी राम,</p>
-  <p>संकट में जब घिरूँ, तो रक्षक सदा तभी राम।</p>
-  <p>आकाश राम, पाताल राम, ठिठुरन राम, जली राम,</p>
-  <p>वृक्ष राम, तना राम, वन की सघन गली राम।</p>
-  <p>आदि राम, अनंत राम, पल-पल और अतीत राम,</p>
-  <p className="text-pink-600 dark:text-pink-500 font-bold text-lg mt-2">
-    <b>सृष्टि के कण-कण में, पुरुषोत्तम के में संगीत राम।</b>
-  </p>
-</div>
+                    <p>आज राम, अभी राम, कल राम, कभी राम,</p>
+                    <p>संकट में जब घिरूँ, तो रक्षक सदा तभी राम।</p>
+                    <p>आकाश राम, पाताल राम, ठिठुरन राम, जली राम,</p>
+                    <p>वृक्ष राम, तना राम, वन की सघन गली राम।</p>
+                    <p>आदि राम, अनंत राम, पल-पल और अतीत राम,</p>
+                    <p className="text-pink-600 dark:text-pink-500 font-bold text-lg mt-2">
+                      <b>सृष्टि के कण-कण में, पुरुषोत्तम के में संगीत राम।</b>
+                    </p>
+                  </div>
                   
                   <div className="mt-6 flex items-center gap-4">
                     <motion.a 
@@ -181,12 +187,12 @@ function Dashboard() {
           <div className="py-24 flex justify-center"><div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin"></div></div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16 pb-40">
-            {purchasedBooks.filter(b => b.name.toLowerCase().includes(searchQuery.toLowerCase())).map((book) => (
+            {purchasedBooks.filter(b => (b?.name || "").toLowerCase().includes(searchQuery.toLowerCase())).map((book) => (
               <motion.div key={book?._id} whileHover={{ y: -15 }} className="group relative cursor-pointer">
                 <div className="relative h-[450px] w-full rounded-[70px] overflow-hidden shadow-2xl transition-all duration-700 border border-white/5">
                   <img src={book?.image} className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110" alt="" />
                   <div className="absolute inset-0 bg-emerald-950/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
-                      <button onClick={() => window.open(book?.pdfUrl, "_blank")} className="bg-white text-black px-10 py-4 rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-emerald-500 hover:text-white transition-all shadow-xl">Initialize</button>
+                      <button onClick={() => setActivePdf(book?.pdfUrl)} className="bg-white text-black px-10 py-4 rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-emerald-500 hover:text-white transition-all shadow-xl">Initialize</button>
                   </div>
                 </div>
                 <div className="mt-8 text-center"><h2 className="text-xl font-black uppercase tracking-tighter group-hover:text-emerald-500 transition-colors italic truncate px-4">{book?.name}</h2></div>
@@ -202,6 +208,37 @@ function Dashboard() {
           </div>
         )}
       </div>
+
+      {/* --- SECURE PDF READER MODAL (Hides Google Drive Header / Logo) --- */}
+      {activePdf && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center p-4">
+          <div className="w-full max-w-5xl flex justify-between items-center mb-4">
+            <h3 className="text-white font-black uppercase tracking-wider text-sm">Secure Reader Matrix</h3>
+            <button 
+              onClick={() => setActivePdf(null)} 
+              className="bg-red-500 text-white px-6 py-2 rounded-full font-bold uppercase text-xs hover:bg-red-600 transition-all shadow-lg"
+            >
+              Close Reader
+            </button>
+          </div>
+          
+          <div className="relative w-full max-w-5xl h-[80vh] rounded-2xl overflow-hidden bg-slate-900 border border-white/10 shadow-2xl">
+            <iframe 
+              src={activePdf} 
+              title="Book Reader"
+              style={{
+                position: 'absolute',
+                top: '-42px',
+                left: '0',
+                width: '100%',
+                height: 'calc(100% + 42px)',
+                border: 'none'
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );
