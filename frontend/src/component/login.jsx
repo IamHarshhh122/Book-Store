@@ -171,7 +171,7 @@ const Login = () => {
               type="submit" 
               className="w-full py-3.5 mt-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm transition-all shadow-sm active:scale-[0.98]"
             >
-              Sign In
+              Log in to Continue
             </button>
           </form>
 
