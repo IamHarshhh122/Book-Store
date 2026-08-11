@@ -56,7 +56,6 @@ const Contact = () => {
     }
 
     try {
-      // Live Render Backend API Call (Fixed Network Error)
       const response = await axios.post('https://bobook-store-backend.onrender.com/user/submit-review', { 
         ...data, 
         rating, 
