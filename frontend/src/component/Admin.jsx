@@ -158,7 +158,7 @@ const AdminDashboard = () => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        setUserToDelete(user); // Triggers Custom Modal
+                        setUserToDelete(user); 
                       }}
                       className="p-2.5 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-600 hover:text-white transition-all duration-300"
                       title="Delete User"
