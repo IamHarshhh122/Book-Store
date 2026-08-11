@@ -42,7 +42,7 @@ export const login = async (req, res) => {
         const isMatch = user ? await bcryptjs.compare(password, user.password) : false;
 
         if (!user || !isMatch) {
-            return res.status(400).json({ message: "Ghalat email ya password!" });
+            return res.status(400).json({ message: "Oops! Email or password is incorrect. Try again..." });
         }
         user.lastLogin = new Date();
         await user.save();
