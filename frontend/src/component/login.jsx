@@ -88,6 +88,8 @@ const Login = () => {
     } catch (err) {
       setLoading(false);
       toast.error(err.response ? err.response.data.message : "Invalid email or password", {
+        duration: 4000,
+        position: 'top-center',
         style: { 
           borderRadius: '12px', 
           background: '#18181b', 
@@ -116,7 +118,7 @@ const Login = () => {
         <img src="/logout2.png" alt="Login" className="w-10 h-10 rounded-full border border-slate-700 object-cover shadow-sm" />
       </button>
 
-      <dialog id="my_modal_3" className="modal backdrop-blur-md">
+      <dialog id="my_modal_3" className="modal">
         <div className="modal-box bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-2xl relative text-slate-900 dark:text-white max-w-md w-full">
           <button 
             type="button" 
@@ -126,19 +128,19 @@ const Login = () => {
             ✕
           </button>
 
-         <div className="space-y-2">
-  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-xs font-medium border border-emerald-500/20">
-    <span> Read, Buy & Review</span>
-  </div>
-  
-  <h3 className="font-extrabold text-3xl tracking-tight text-slate-900 dark:text-white">
-    Welcome to <span className="text-emerald-500">BookStore</span>
-  </h3>
-  
-  <p className="text-sm text-slate-500 dark:text-slate-400">
-    <p>Unlock worlds without unlocking your wallet.</p>
-  </p>
-</div>
+          <div className="space-y-2 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-xs font-medium border border-emerald-500/20">
+              <span>Read, Buy & Review</span>
+            </div>
+            
+            <h3 className="font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white">
+              Welcome to <span className="text-emerald-500">BookStore</span>
+            </h3>
+            
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Unlock worlds without unlocking your wallet.
+            </p>
+          </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
