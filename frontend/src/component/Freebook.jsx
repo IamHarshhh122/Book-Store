@@ -16,7 +16,6 @@ const Freebook = () => {
         
         const res = await axios.get("https://bobook-store-backend.onrender.com/book");
         
-        // Sare variable names ab ekdam synced hain
         const rawBooks = Array.isArray(res.data) ? res.data : (res.data.books || []);
         const freeBooks = rawBooks.filter((data) => data.category === "Free");
         
@@ -32,7 +31,7 @@ const Freebook = () => {
 
   const settings = {
     dots: true,
-    infinite: books.length > 3, 
+    infinite: books.length > 1, 
     speed: 800,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -43,16 +42,19 @@ const Freebook = () => {
     responsive: [
       {
         breakpoint: 1024,
-        settings: { slidesToShow: 2, slidesToScroll: 1 },
+        settings: { 
+          slidesToShow: 2, 
+          slidesToScroll: 1 
+        },
       },
       {
-        breakpoint: 640,
+        breakpoint: 768,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
           arrows: false,
-          centerMode: true,
-          centerPadding: "20px",
+          centerMode: false,
+          dots: true,
         },
       },
     ],
@@ -69,9 +71,9 @@ const Freebook = () => {
       />
 
       <style>{`
-        .slick-list { margin: 0 -12px; padding-bottom: 20px !important; }
-        .slick-slide > div { padding: 0 12px; }
-        .slick-dots { bottom: -15px !important; }
+        .slick-list { margin: 0 -8px; padding-bottom: 30px !important; }
+        .slick-slide > div { padding: 0 8px; }
+        .slick-dots { bottom: -5px !important; }
         .slick-prev:before, .slick-next:before {
           color: #db2777 !important;
           font-size: 24px;
@@ -81,8 +83,8 @@ const Freebook = () => {
         }
       `}</style>
 
-      <div className="relative z-30 max-w-screen-2xl mx-auto px-6 md:px-20">
-        <div className="space-y-2 mb-10">
+      <div className="relative z-30 max-w-screen-2xl mx-auto px-4 md:px-20">
+        <div className="space-y-2 mb-8 text-center md:text-left">
           <h1 className="text-2xl md:text-4xl font-extrabold text-indigo-900 dark:text-pink-500">
             Knowledge is <span className="text-pink-600 font-black">Free Forever</span> 🎁
           </h1>
@@ -96,11 +98,13 @@ const Freebook = () => {
             <span className="loading loading-spinner loading-lg text-pink-600"></span>
           </div>
         ) : (
-          <div className="slider-container">
+          <div className="slider-container px-2 md:px-0">
             {books.length > 0 ? (
               <Slider {...settings}>
                 {books.map((item) => (
-                  <Cards key={item._id || item.id} item={item} />
+                  <div key={item._id || item.id} className="outline-none py-2">
+                    <Cards item={item} />
+                  </div>
                 ))}
               </Slider>
             ) : (
