@@ -48,12 +48,11 @@ const Freebook = () => {
         },
       },
       {
-        breakpoint: 768,
+        breakpoint: 640,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
           arrows: false,
-          centerMode: false,
           dots: true,
         },
       },
@@ -71,8 +70,8 @@ const Freebook = () => {
       />
 
       <style>{`
-        .slick-list { margin: 0 -8px; padding-bottom: 30px !important; }
-        .slick-slide > div { padding: 0 8px; }
+        .slick-list { margin: 0 -10px; padding-bottom: 30px !important; }
+        .slick-slide > div { padding: 0 10px; }
         .slick-dots { bottom: -5px !important; }
         .slick-prev:before, .slick-next:before {
           color: #db2777 !important;
@@ -98,7 +97,7 @@ const Freebook = () => {
             <span className="loading loading-spinner loading-lg text-pink-600"></span>
           </div>
         ) : (
-          <div className="slider-container px-2 md:px-0">
+          <div className="slider-container">
             {books.length > 0 ? (
               <Slider {...settings}>
                 {books.map((item) => (
