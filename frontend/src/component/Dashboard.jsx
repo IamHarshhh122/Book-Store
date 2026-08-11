@@ -147,7 +147,7 @@ function Dashboard() {
               </p>
 
               <div className="p-6 border-l-2 border-emerald-500/30 bg-emerald-500/5 rounded-r-2xl max-w-xl mx-auto lg:mx-0">
-                <h3 className="text-emerald-500 font-bold mb-2 tracking-wide text-xs">॥ मिथक नववर्ष : एक कवि का सवाल ॥</h3>
+                <h3 className="text-emerald-500 font-bold mb-2 tracking-wide text-xs">॥ राम-नाम: एक कवि की भावना ॥</h3>
                 <div className="text-sm italic font-serif text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
                   <div className="space-y-3 text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     <p>आज राम, अभी राम, कल राम, कभी राम,</p>
