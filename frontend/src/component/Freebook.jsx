@@ -8,6 +8,13 @@ import Cards from "./Card";
 const Freebook = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const getBooks = async () => {
@@ -33,7 +40,7 @@ const Freebook = () => {
     dots: true,
     infinite: books.length > 1, 
     speed: 800,
-    slidesToShow: 3,
+    slidesToShow: windowWidth < 768 ? 1 : windowWidth < 1024 ? 2 : 3,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -48,7 +55,7 @@ const Freebook = () => {
         },
       },
       {
-        breakpoint: 640,
+        breakpoint: 768,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -70,8 +77,8 @@ const Freebook = () => {
       />
 
       <style>{`
-        .slick-list { margin: 0 -10px; padding-bottom: 30px !important; }
-        .slick-slide > div { padding: 0 10px; }
+        .slick-list { margin: 0 -8px; padding-bottom: 30px !important; }
+        .slick-slide > div { padding: 0 8px; }
         .slick-dots { bottom: -5px !important; }
         .slick-prev:before, .slick-next:before {
           color: #db2777 !important;
@@ -99,7 +106,7 @@ const Freebook = () => {
         ) : (
           <div className="slider-container">
             {books.length > 0 ? (
-              <Slider {...settings}>
+              <Slider key={windowWidth < 768 ? "mobile" : "desktop"} {...settings}>
                 {books.map((item) => (
                   <div key={item._id || item.id} className="outline-none py-2">
                     <Cards item={item} />
