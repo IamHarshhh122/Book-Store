@@ -136,7 +136,9 @@ const Login = () => {
   </h3>
   
   <p className="text-sm text-slate-500 dark:text-slate-400">
-    Dive into free reads, grab your favorite books, and share your reviews. Sign in to continue.
+   <p>Your gateway to free reads,</p>  
+    <p>Unlock worlds without unlocking your wallet,</p>
+    <p>& Where stories come alive and readers unite.</p>
   </p>
 </div>
 
