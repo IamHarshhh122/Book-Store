@@ -22,7 +22,7 @@ const Signup = () => {
     };
 
     setLoading(true);
-// FIXED: Localhost se badal kar live backend link laga diya
+// changed locallhost to live URL 
 await axios.post("https://bobook-store-backend.onrender.com/user/signup", userInfo)
       .then((res) => {
         if (res.data) {
