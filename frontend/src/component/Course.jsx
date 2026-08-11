@@ -20,7 +20,6 @@ function Course() {
     const getBooks = async () => {
       try {
         setLoading(true);
-        // Direct Render Backend API Call - No local API file dependency
         const res = await axios.get('https://bobook-store-backend.onrender.com/books');
         
         const rawData = Array.isArray(res.data) ? res.data : [];
