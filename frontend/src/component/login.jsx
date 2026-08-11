@@ -126,14 +126,19 @@ const Login = () => {
             ✕
           </button>
 
-          <div className="text-center mb-6">
-            <h3 className="font-bold text-2xl tracking-tight">
-              Welcome <span className="text-emerald-500">Back</span>
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Please enter your details to sign in
-            </p>
-          </div>
+         <div className="space-y-2">
+  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-xs font-medium border border-emerald-500/20">
+    <span> Read, Buy & Review</span>
+  </div>
+  
+  <h3 className="font-extrabold text-3xl tracking-tight text-slate-900 dark:text-white">
+    Welcome to <span className="text-emerald-500">BookStore</span>
+  </h3>
+  
+  <p className="text-sm text-slate-500 dark:text-slate-400">
+    Dive into free reads, grab your favorite books, and share your reviews. Sign in to continue.
+  </p>
+</div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
